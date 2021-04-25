@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage-angular';
@@ -16,10 +16,13 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient, private storage: Storage) { }
 
+  httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+
   register(user: User): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>
-    (`${this.AUTH_SERVER_ADDRESS}/user/register`, user)
-    .pipe(tap(async (res: AuthResponse ) => {
+    console.log(user.email)
+    return this.httpClient.post(
+      `${this.AUTH_SERVER_ADDRESS}/user/register`, user).pipe(
+      tap(async (res: AuthResponse ) => {
       if(res.user){
         await this.storage.set("ACCESS_TOKEN", res.user.access_token);
         await this.storage.set("EXPIRES_IN", res.user.expires_in);
@@ -30,9 +33,10 @@ export class AuthService {
   }
 
   login(user: User): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>
-    (`${this.AUTH_SERVER_ADDRESS}/user/login`, user)
-    .pipe(tap(async (res: AuthResponse ) => {
+    console.log(user.email)
+    return this.httpClient.post(
+      `${this.AUTH_SERVER_ADDRESS}/user/login`, user).pipe(
+      tap(async (res: AuthResponse ) => {
       if(res.user){
         await this.storage.set("ACCESS_TOKEN", res.user.access_token);
         await this.storage.set("EXPIRES_IN", res.user.expires_in);
