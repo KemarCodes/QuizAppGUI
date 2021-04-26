@@ -14,14 +14,14 @@ export class AuthService {
   AUTH_SERVER_ADDRESS: string = 'http://localhost:5000';
   authSubject = new BehaviorSubject(false);
 
-  constructor(private httpClient: HttpClient, private storage: Storage) { }
+  constructor(private httpClient: HttpClient, public storage: Storage) { }
 
   httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
 
   register(user: User): Observable<AuthResponse> {
     console.log(user.email)
     return this.httpClient.post(
-      `${this.AUTH_SERVER_ADDRESS}/user/register`, user).pipe(
+      `${this.AUTH_SERVER_ADDRESS}/user/register`, user, this.httpOptions).pipe(
       tap(async (res: AuthResponse ) => {
       if(res.user){
         await this.storage.set("ACCESS_TOKEN", res.user.access_token);
@@ -35,7 +35,7 @@ export class AuthService {
   login(user: User): Observable<AuthResponse> {
     console.log(user.email)
     return this.httpClient.post(
-      `${this.AUTH_SERVER_ADDRESS}/user/login`, user).pipe(
+      `${this.AUTH_SERVER_ADDRESS}/user/login`, user, this.httpOptions).pipe(
       tap(async (res: AuthResponse ) => {
       if(res.user){
         await this.storage.set("ACCESS_TOKEN", res.user.access_token);
