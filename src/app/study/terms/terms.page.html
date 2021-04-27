@@ -14,6 +14,10 @@
       <ion-item>
         {{term.description}}
       </ion-item>
+      <ion-button fill="clear" size="small" color="danger" (click)="deleteTerm(term.term_id)">
+        <ion-icon slot="icon-only" name="remove">
+      </ion-icon>
+      </ion-button>
     </ion-card>
   </ion-list>
   <form #addTermForm="ngForm" (ngSubmit)="addTerm(addTermForm)">

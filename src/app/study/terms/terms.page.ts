@@ -53,4 +53,20 @@ export class TermsPage implements OnInit {
     addTermForm.reset();
   }
 
+  deleteTerm(value){
+    console.log(value);
+    let postData = {    
+      "studySetID": this.data,
+      "termID": value
+    }
+    this.httpClient.post(`${this.SERVER_ADDRESS}/study/deleteterm`, postData, this.httpOptions)
+    .subscribe(data => {
+      console.log(data['terms']);
+      this.terms = data['terms'];
+    }, error => {
+      console.log(error);
+    });
+  }
+ 
+
 }
