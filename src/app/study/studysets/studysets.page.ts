@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { StorageService, Item } from '../../storage.service';
+import { TermsPage } from '../terms/terms.page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-studysets',
@@ -12,7 +14,9 @@ export class StudysetsPage implements OnInit {
   SERVER_ADDRESS: string = 'http://localhost:5000';
   items: Item[] = [];
 
-  constructor(private httpClient: HttpClient, public storage: StorageService) { }
+  constructor(private httpClient: HttpClient,
+     public storage: StorageService,
+     private router: Router) { }
 
   httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
   sets: any;
@@ -35,8 +39,9 @@ export class StudysetsPage implements OnInit {
     });
   }
 
-  openStudySet(value){
+  openStudySet(value: number){
     console.log(value);
+    this.router.navigate(['terms/'.concat(value.toString())]);
   }
 
 /*   retrieveStudySets(){ 

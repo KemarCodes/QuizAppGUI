@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Terms</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-list>
+    <ion-card *ngFor="let term of terms">
+      <ion-item>
+        {{term.term}}
+      </ion-item>
+      <ion-item>
+        {{term.description}}
+      </ion-item>
+    </ion-card>
+  </ion-list>
+  <form #addTermForm="ngForm" (ngSubmit)="addTerm(addTermForm)">
+  <ion-card>
+    <ion-item>
+      <ion-input name="newterm" placeholder="Term" ngModel required>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea name="newdescription" placeholder="Description" ngModel required>
+      </ion-textarea> 
+    </ion-item>
+    <ion-button size="small" type="submit" [disabled]="addTermForm.invalid" expand="block">
+      AddTerm
+    </ion-button>
+  </ion-card>
+  </form>
+</ion-content>

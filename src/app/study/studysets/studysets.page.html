@@ -7,7 +7,7 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let set of sets">    
-      <ion-button (click)="openStudySet(set.name)" color="secondary">
+      <ion-button (click)="openStudySet(set.id)" color="secondary">
         {{set.name}}
       </ion-button>
     </ion-item>
