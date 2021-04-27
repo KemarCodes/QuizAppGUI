@@ -1,13 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>studysets</ion-title>
+    <ion-title>Study Sets</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<!--   <ion-list>
-    <ion-item *ngFor="let setlist of studysets">    
-      StudySet:  {{setlist.dishName}}
+  <ion-list>
+    <ion-item *ngFor="let set of sets">    
+      <ion-button (click)="openStudySet(set.name)" color="secondary">
+        {{set.name}}
+      </ion-button>
     </ion-item>
-  </ion-list> -->
+  </ion-list>
 </ion-content>
