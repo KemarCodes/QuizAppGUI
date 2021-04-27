@@ -26,9 +26,9 @@ export class AuthService {
       `${this.AUTH_SERVER_ADDRESS}/user/register`, user, this.httpOptions).pipe(
       tap(async (res: AuthResponse ) => {
       if(res.user){
-        this.newItem.key = "ACCESS_TOKEN";
-        this.newItem.value = res.user.access_token;
-        await this.storage.addItem(this.newItem);
+        //this.newItem.key = "ACCESS_TOKEN";
+        //this.newItem.value = res.user.access_token;
+        //await this.storage.addItem(this.newItem);
         //await this.storage.set("EXPIRES_IN", res.user.expires_in);
         this.authSubject.next(true);
       }
@@ -42,10 +42,11 @@ export class AuthService {
       `${this.AUTH_SERVER_ADDRESS}/user/login`, user, this.httpOptions).pipe(
       tap(async (res: AuthResponse ) => {
       if(res.user){
-        this.newItem.key = "ACCESS_TOKEN";
-        this.newItem.value = res.user.access_token;
-        await this.storage.addItem(this.newItem);
+        //this.newItem.key = "ACCESS_TOKEN";
+        //this.newItem.value = res.user.access_token;
+        //await this.storage.addItem(this.newItem);
         //await this.storage.set("EXPIRES_IN", res.user.expires_in);
+        console.log(res.user.access_token);
         this.authSubject.next(true);
       }
     })

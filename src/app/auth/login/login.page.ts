@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
+
 
 @Component({
   selector: 'app-login',
@@ -9,12 +10,23 @@ import { AuthService } from '../auth.service';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  AUTH_SERVER_ADDRESS: string = 'http://localhost:5000';
+
+  constructor(private router: Router,
+     private httpClient: HttpClient) { }
+
+  httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
+
 
   login(form){
-    this.authService.login(form.value).subscribe((res) => 
-      {this.router.navigateByUrl('studysets');
-    });    
+    this.httpClient.post(
+      `${this.AUTH_SERVER_ADDRESS}/user/login`, form.value, this.httpOptions)
+      .subscribe(data => {
+        this.router.navigate(['studysets/'.concat(data['access_token'])]);
+      }, error => {
+        console.log(error);
+      });
+
   }
 
   ngOnInit() {

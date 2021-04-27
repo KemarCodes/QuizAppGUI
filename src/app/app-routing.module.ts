@@ -20,7 +20,7 @@ const routes: Routes = [
     loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'studysets',
+    path: 'studysets/:token',
     loadChildren: () => import('./study/studysets/studysets.module').then( m => m.StudysetsPageModule)
   },
   {

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { StorageService, Item } from '../../storage.service';
-import { TermsPage } from '../terms/terms.page';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-studysets',
@@ -12,11 +10,13 @@ import { Router } from '@angular/router';
 export class StudysetsPage implements OnInit {
 
   SERVER_ADDRESS: string = 'http://localhost:5000';
-  items: Item[] = [];
+  token: any;
 
   constructor(private httpClient: HttpClient,
-     public storage: StorageService,
-     private router: Router) { }
+     private router: Router,
+     private activatedRoute: ActivatedRoute) {
+          this.token = this.activatedRoute.snapshot.paramMap.get('token');
+      }
 
   httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
   sets: any;
@@ -28,7 +28,7 @@ export class StudysetsPage implements OnInit {
 
   retrieveStudySets(){
     let postData = {    
-      "sessionToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzb21lIjoicGF5bG9hZCJ9.SsEpHy4UR5hXQZgll7PotCVuRSVN-dXa66YCcIRJdtY"
+      "sessionToken": this.token
     }
     this.httpClient.post(`${this.SERVER_ADDRESS}/study/studysets`, postData, this.httpOptions)
     .subscribe(data => {
@@ -39,25 +39,27 @@ export class StudysetsPage implements OnInit {
     });
   }
 
+  addStudySet(addStudySetForm){
+    let postData = {    
+      "sessionToken": this.token,
+      "studySetName": addStudySetForm.value.newstudyset
+    }
+    this.httpClient.post(`${this.SERVER_ADDRESS}/study/newstudyset`, postData, this.httpOptions)
+    .subscribe(data => {
+      console.log(data['studysets']);
+      this.sets = data['studysets'];
+    }, error => {
+      console.log(error);
+    });
+    addStudySetForm.reset();
+  }
+
+
+
   openStudySet(value: number){
     console.log(value);
     this.router.navigate(['terms/'.concat(value.toString())]);
   }
 
-/*   retrieveStudySets(){ 
-    this.storage.getItems().then(items => {
-      this.items = items;
-     });
-     console.log(this.items.toString());
-    let postData = {    
-      
-    }
-    this.httpClient.post(`${this.SERVER_ADDRESS}/study/studysets`, postData, this.httpOptions)
-    .subscribe(data => {
-      console.log(data['_body']);
-    }, error => {
-      console.log(error);
-    });
-  } */
 
 }

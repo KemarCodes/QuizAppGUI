@@ -12,4 +12,15 @@
       </ion-button>
     </ion-item>
   </ion-list>
+  <form #addStudySetForm="ngForm" (ngSubmit)="addStudySet(addStudySetForm)">
+    <ion-card>
+      <ion-item>
+        <ion-input name="newstudyset" placeholder="Name" ngModel required>
+        </ion-input>
+      </ion-item>
+      <ion-button size="small" type="submit" [disabled]="addStudySetForm.invalid">
+        Add Study Set
+      </ion-button>
+    </ion-card>
+    </form>
 </ion-content>
