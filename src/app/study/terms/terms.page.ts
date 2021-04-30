@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ReviewtermsService } from '../../reviewterms.service';
 
 @Component({
   selector: 'app-terms',
@@ -13,7 +14,9 @@ export class TermsPage implements OnInit {
   data: any;
 
   constructor(private httpClient: HttpClient, 
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    public reviewtermsService: ReviewtermsService) {
         this.data = this.activatedRoute.snapshot.paramMap.get('id');
      }
 
@@ -68,5 +71,9 @@ export class TermsPage implements OnInit {
     });
   }
  
+  doReview(){
+    this.reviewtermsService.setTerms(this.terms);
+    this.router.navigate(['review']);
+  }
 
 }

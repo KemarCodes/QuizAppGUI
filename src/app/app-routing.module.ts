@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'terms/:id',
     loadChildren: () => import('./study/terms/terms.module').then( m => m.TermsPageModule)
   },
+  {
+    path: 'review',
+    loadChildren: () => import('./review/review.module').then( m => m.ReviewPageModule)
+  },
 ];
 
 @NgModule({
